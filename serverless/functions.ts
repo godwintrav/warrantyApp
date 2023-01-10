@@ -12,6 +12,30 @@ const functions: AWS["functions"] = {
             },
         ],
     },
+    sendWarrantyExpiry: {
+        handler: 'src/functions/sendWarrantyExpiry/index.handler',
+        events: [
+            {
+                stream: {
+                    type: 'dynamodb',
+                    arn: {
+                        "Fn::GetAtt": ["warrantyTable", "StreamArn"],
+                    },
+                    filterPatterns: [{ eventName: ["REMOVE"] }],
+                },
+            },
+        ],
+        //@ts-expect-error
+        iamRoleStatements: [
+            {
+                Effect: 'Allow',
+                Action: [
+                    "ses:sendEmail", "sns:Publish"
+                ],
+                Resource: '*'
+            }
+        ],
+    },
 }
 
 export default functions;
