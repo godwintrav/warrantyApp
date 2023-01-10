@@ -11,7 +11,7 @@ export const handler = async (event: APIGatewayProxyEvent) => {
         const body = JSON.parse(event.body);
         const { email, orderId } = body;
         const todayDate = Date.now();
-        const warrantyDate: number = parseInt(new Date(todayDate + 63113852000).toString());
+        const warrantyDate: number = todayDate + 63113852000;
 
         //validate inputs
         const validationErrors = validateInputs({ email, orderId });
@@ -40,7 +40,7 @@ export const handler = async (event: APIGatewayProxyEvent) => {
 
     } catch (error) {
         console.log(error);
-        return;
+        return formatJSONResponse({ statusCode: 500, data: error.message });;
     }
 };
 
