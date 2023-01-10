@@ -29,12 +29,15 @@ export const handler = async (event: APIGatewayProxyEvent) => {
             warrantyDate
         };
         //create warranty in dynamo table
-        const response = await dynamo.write(data, tableName);
+        let response = await dynamo.write(data, tableName);
+
         //return success message
         return formatJSONResponse({
             statusCode: 201, data: {
                 message: `Warranty Created for Order: ${orderId}`,
-                warranty: response,
+                email,
+                warrantyDate,
+                orderId
             },
         });
 
