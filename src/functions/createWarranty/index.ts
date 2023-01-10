@@ -9,10 +9,12 @@ export const handler = async (event: APIGatewayProxyEvent) => {
     try {
         const tableName = process.env.warrantyTable;
         const body = JSON.parse(event.body);
-        const { email, orderId, warrantyDate } = body;
+        const { email, orderId } = body;
+        const todayDate = Date.now();
+        const warrantyDate: number = parseInt(new Date(todayDate + 63113852000).toString());
 
         //validate inputs
-        const validationErrors = validateInputs({ email, orderId, warrantyDate });
+        const validationErrors = validateInputs({ email, orderId });
         if (validationErrors) {
             return validationErrors;
         }
@@ -42,7 +44,7 @@ export const handler = async (event: APIGatewayProxyEvent) => {
     }
 };
 
-const validateInputs = ({ email, orderId, warrantyDate }: { email?: string; orderId?: string; warrantyDate?: number; }) => {
+const validateInputs = ({ email, orderId }: { email?: string; orderId?: string; }) => {
     var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
 
     if (!email || !email.match(pattern)) {
@@ -61,11 +63,4 @@ const validateInputs = ({ email, orderId, warrantyDate }: { email?: string; orde
         });
     }
 
-    if (!warrantyDate) {
-        return formatJSONResponse({
-            statusCode: 400, data: {
-                message: 'Warranty Date required'
-            }
-        });
-    }
 }

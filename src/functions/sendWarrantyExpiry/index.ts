@@ -39,7 +39,7 @@ const sendEmail = async ({ email, orderId, warrantyDate }: { email: string; orde
             Body: {
                 Text: {
                     Charset: 'UTF-8',
-                    Data: `Your warranty is about to expire on ${warrantyDate}`
+                    Data: `Your warranty is about to expire click the link to increase the warranty by 2 years: ${process.env.baseUrl}`
                 }
             }
         }
