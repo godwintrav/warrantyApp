@@ -36,6 +36,17 @@ const functions: AWS["functions"] = {
             }
         ],
     },
+    updateWarranty: {
+        handler: 'src/functions/updateWarranty/index.handler',
+        events: [
+            {
+                httpApi: {
+                    path: "/",
+                    method: "GET",
+                },
+            },
+        ],
+    },
 }
 
 export default functions;
