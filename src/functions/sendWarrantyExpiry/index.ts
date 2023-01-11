@@ -26,6 +26,7 @@ export const handler = async (event: DynamoDBStreamEvent) => {
 
 const sendEmail = async ({ email, orderId, warrantyDate }: { email: string; orderId: string; warrantyDate: number; }) => {
 
+    const formattedDate = new Date(warrantyDate);
     const params: SendEmailCommandInput = {
         Source: 'godwintrav@gmail.com',
         Destination: {
@@ -39,7 +40,7 @@ const sendEmail = async ({ email, orderId, warrantyDate }: { email: string; orde
             Body: {
                 Text: {
                     Charset: 'UTF-8',
-                    Data: `Your warranty is about to expire click the link to increase the warranty by 2 years: ${process.env.baseUrl}?email=${email}&orderId=${orderId}`
+                    Data: `Your warranty is about to expire on ${formattedDate} click the link to increase the warranty by 2 years: ${process.env.baseUrl}?email=${email}&orderId=${orderId}`
                 }
             }
         }
