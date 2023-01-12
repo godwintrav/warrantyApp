@@ -58,6 +58,17 @@ const functions: AWS["functions"] = {
             },
         ],
     },
+    getWarranty: {
+        handler: 'src/functions/getWarranty/index.handler',
+        events: [
+            {
+                httpApi: {
+                    path: "/{warrantyId}",
+                    method: "GET",
+                },
+            },
+        ],
+    },
 }
 
 export default functions;

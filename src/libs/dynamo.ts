@@ -1,5 +1,5 @@
 import { DynamoDBClient, AttributeValue } from "@aws-sdk/client-dynamodb";
-import { PutCommand, PutCommandInput, QueryCommandInput, QueryCommand } from "@aws-sdk/lib-dynamodb";
+import { PutCommand, PutCommandInput, QueryCommandInput, QueryCommand, GetCommandInput, GetCommand } from "@aws-sdk/lib-dynamodb";
 
 const dynamoClient = new DynamoDBClient({});
 type Item = Record<string, AttributeValue>;
@@ -57,5 +57,19 @@ export const dynamo = {
         const res = await dynamoClient.send(command);
 
         return res.Items as T[];
+    },
+
+    get: async<T = Item>(id: string, tableName: string) => {
+        const params: GetCommandInput = {
+            TableName: tableName,
+            Key: {
+                id,
+            },
+        };
+
+        const command = new GetCommand(params);
+        const response = await dynamoClient.send(command);
+
+        return response.Item as T;
     }
 }
