@@ -63,7 +63,7 @@ const functions: AWS["functions"] = {
         events: [
             {
                 httpApi: {
-                    path: "/{warrantyId}",
+                    path: "/warranty/{warrantyId}",
                     method: "GET",
                 },
             },
