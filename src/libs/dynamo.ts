@@ -1,5 +1,5 @@
-import { DynamoDBClient, AttributeValue, QueryCommand } from "@aws-sdk/client-dynamodb";
-import { PutCommand, PutCommandInput, QueryCommandInput } from "@aws-sdk/lib-dynamodb";
+import { DynamoDBClient, AttributeValue } from "@aws-sdk/client-dynamodb";
+import { PutCommand, PutCommandInput, QueryCommandInput, QueryCommand } from "@aws-sdk/lib-dynamodb";
 
 const dynamoClient = new DynamoDBClient({});
 type Item = Record<string, AttributeValue>;
@@ -38,6 +38,7 @@ export const dynamo = {
         skKey?: string;
     }) => {
 
+        console.log(pkValue);
         const skExpression = skValue ? ` AND ${skKey} = :rangeValue` : "";
         const params: QueryCommandInput = {
             TableName: tableName,

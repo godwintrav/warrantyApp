@@ -19,13 +19,17 @@ export const handler = async (event: APIGatewayProxyEvent) => {
             });
         }
         //query dynamodb for orders
-        const queryResult = await dynamo.query<WarrantyRecordType>({ index: 'index1', pkValue: email, tableName });
+        const queryResult = await dynamo.query<WarrantyRecordType>({ tableName, index: "index1", pkValue: email });
+        const result = queryResult.map(({ orderId, email, warrantyDate, ...queryResult }) => {
+            return { orderId, email, warrantyDate: new Date(warrantyDate) }
+        });
+        console.log(queryResult);
         //format response
         //return response
         return formatJSONResponse({
             data: {
                 message: "Success",
-                response: queryResult
+                response: result
             }
         })
 
