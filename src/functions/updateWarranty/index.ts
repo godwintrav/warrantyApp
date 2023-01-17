@@ -11,6 +11,7 @@ export const handler = async (event: APIGatewayProxyEvent) => {
         const { queryStringParameters = {} } = event;
         const { email, orderId } = queryStringParameters;
         const todayDate = Date.now();
+        //add two years to current date
         const warrantyDate: number = todayDate + 63113852000;
 
         //validate inputs
